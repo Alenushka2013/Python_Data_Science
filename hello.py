@@ -8,3 +8,5 @@ def foo(a):
 def bar(a):
     return a + 2
 
+def bat(a):
+    return a + 3
