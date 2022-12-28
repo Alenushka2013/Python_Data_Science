@@ -1,3 +1,5 @@
 def hello():
     print('hello, world')
-    print('2 + 2 = 4')
+
+def foo(a): 
+    return a + 1
