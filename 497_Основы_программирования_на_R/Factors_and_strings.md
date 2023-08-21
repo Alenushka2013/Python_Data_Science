@@ -500,7 +500,7 @@ Cut -> распределит по интервалам
         list.files(pattern = ".*\\.csv$")
 Считываем только 5 строк 
 
-        list.files(pattern = ".*\\.csv$")
+        readlines("avianHabitat.csv", 5)
         
  ## Задача
  
