@@ -1,0 +1,45 @@
+Константы
+https://docs.scipy.org/doc/numpy/reference/constants.html
+
+Размер вектора/матрицы
+https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.shape.html
+
+Скалярное произведение (для векторов и матриц)
+https://docs.scipy.org/doc/numpy/reference/generated/numpy.dot.html
+
+Приведение типов - astype
+https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.astype.html
+
+Математические функции
+Могут быть применены как ко всему вектору/матрице, так и к отдельным частям (например, к отдельным строкам матрицы).
+
+Сумма - numpy.sum() - https://docs.scipy.org/doc/numpy/reference/generated/numpy.sum.html
+Среднее - numpy.mean() - https://docs.scipy.org/doc/numpy-1.14.0/reference/generated/numpy.mean.html
+
+Тригонометрические функции
+Данные функции могут быть применены как к отдельному числу, так и к вектору/матрице. В последнем случае операция будет векторной (т.е. будет применена покоординатно), гораздо быстрее, чем если использовать math.sin в цикле.
+
+sin - numpy.sin() - https://docs.scipy.org/doc/numpy/reference/generated/numpy.sin.html
+cos - numpy.cos() - https://docs.scipy.org/doc/numpy/reference/generated/numpy.cos.html
+tg (tan) - numpy.tan() - https://docs.scipy.org/doc/numpy/reference/generated/numpy.tan.html
+arcsin - numpy.arcsin() - https://docs.scipy.org/doc/numpy/reference/generated/numpy.arcsin.html
+arccos - numpy.arccos() - https://docs.scipy.org/doc/numpy/reference/generated/numpy.arccos.html
+arctg (arctan) - numpy.arctan() - https://docs.scipy.org/doc/numpy/reference/generated/numpy.arctan.html
+
+
+Генераторы
+numpy.arange() - https://docs.scipy.org/doc/numpy/reference/generated/numpy.arange.html - аналог range(), но позволяет генерировать не только целые числа, но и числа с плавающей точкой (со сколь угодно малым шагом)
+numpy.linspace() - https://docs.scipy.org/doc/numpy/reference/generated/numpy.linspace.html - генерирует N точек в интервале (т.е. делит отрезок на равные части), полезно для построения графиков, чтобы не задумываться о масштабе.
+
+"Обычные" функции для списков
+Если есть особое желание, то к векторам и матрицам почти всегда можно применить и обычные функции:
+
+len()
+sum()
+sorted()
+...
+Но надо учитывать, что ведут они себя не всегда так, как вы можете предполагать, например:
+
+len посчитает только размеры вложенных элементов (т.е. только число векторов в матрице, но не учтёт размер вектора в отличие от numpy.shape)
+sum сложит вектора-строки покоординатно, если применить к матрице, но не найдёт полную сумму (в numpy.sum вы можете регулировать ЧТО вы хотите сложить)
+сортировка матрицы без использования key аргумента может быть затруднена
