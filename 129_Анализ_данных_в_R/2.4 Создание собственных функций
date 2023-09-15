@@ -1,0 +1,72 @@
+1. Напишите функцию, которая выводит номера позиций пропущенных наблюдений в векторе.
+На вход функция получает числовой вектор с пропущенными значениями. Функция возвращает новый вектор с номерами позиций пропущенных значений.
+
+NA.position <- function(x){
+    return(which(is.na(x) == T))
+}
+
+2. Напишите функцию NA.counter для подсчета пропущенных значений в векторе.
+На вход функция  NA.counter должна принимать один аргумент - числовой вектор. Функция должна возвращать количество пропущенных значений.
+
+NA.counter <- function(x){
+    return(length(which(is.na(x))))
+}
+
+NA.counter <- function(x){    
+return(sum(is.na(x)))}
+
+3. Из нескольких файлов создать один dataframe
+Если файлы xxx.csv лежат например в отд папке 'Grants data' 
+с путем path == 'D:/Rstep/p2/Grants data/' ,
+dir(path, pattern = "*.csv") выдает список файлов " xxx.csv " в папке 'Grants data' :
+>>>  [1] "1.csv"   "10.csv"  "100.csv" "101.csv"  ...
+НО в цикле for() {}:
+grants  <- data.frame()
+for ( i in dir(path, pattern = "*.csv") ) {
+  temp_df  <- read.csv(i)
+  grants  <- rbind(temp_df, temp_df)
+}
+выдаст ошибку:
+>>> In file(file, "rt") : cannot open file '1.csv': No such file or directory
+
+Это потому, что файлы "xxx.csv"  НЕ В САМОЙ РАБОЧЕЙ ДИРЕКТОРИИ,
+а в папке 'Grants data'  с путем path == 'D:/Rstep/p2/Grants data/'  (в данном случае)!
+
+НУЖНО ТАК ПРОПИСАТЬ В ЦИКЛЕ for() {}:
+temp_df  <- read.csv( paste0(path, i) )
+В этом случае будет read.csv( paste0(path,i) ) == read.csv( 'D:/Rstep/p2/Grants data/xxx.csv') ,
+где:  
+path == 'D:/Rstep/p2/Grants data/'  - путь к папке 'Grants data'  с csv файлами,
+i == 'xxx.csv' -   название очередного csv файла  в этой папке
+( элемента i  в dir(path, pattern = "*.csv")  -  списке с названиями csv файлов  ).
+Все для это Винды
+( в R :
+paste0(path,i) соединяет 2 строки в 1: 
+paste0('a' , 'b', 'c') . >>>  'abc'
+paste('a' , 'b'', 'c') . >>>  'a b c'  )
+
+4.Напишите функцию filtered.sum, которая на вход получает вектор с пропущенными, положительными
+и отрицательными значениями и возвращает сумму положительных элементов вектора.
+
+filtered.sum <- function(x){
+    return (sum(x[which(x>0)], na.rm = T))}
+
+filtered.sum <- function(x){    
+return(sum(x[x > 0], na.rm = T))}
+
+5. ﻿Напишите функцию outliers.rm, которая находит и удаляет выбросы. Для обнаружения выбросов воспользуемся самым простым способом, 
+с которым вы не раз встречались, используя график Box plot. 
+Выбросами будем считать те наблюдения, которые отклоняются от 1 или 3 квартиля больше чем на 1,5 *  IQR, где  IQR  - межквартильный размах.
+На вход функция получает числовой вектор x. Функция должна возвращать модифицированный вектор x с удаленными выбросами. 
+
+outliers.rm <- function(x){
+  q1 <- quantile(x, probs = c(0.25))
+  q2 <- quantile(x, probs = c(0.75))
+  wide_IQR = IQR(x) * 1.5
+  k <- x[x >= q1 - wide_IQR & x <= q2 + wide_IQR]
+  return (k)
+}
+
+outliers.rm <- function(x){    
+q <- quantile(x, 0.25) + quantile(x, 0.75)    
+return(x[abs(x - q/2) <= 2*IQR(x)])}
