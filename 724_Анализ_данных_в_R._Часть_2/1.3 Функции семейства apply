@@ -1,0 +1,27 @@
+1. Напишите функцию get_negative_values, которая получает на вход dataframe произвольного размера. Функция должна для каждой переменной в данных проверять, есть ли в ней отрицательные значения. 
+Если в переменной отрицательных значений нет, то эта переменная нас не интересует, для всех переменных, 
+в которых есть отрицательные значения мы сохраним их в виде списка или матрицы, если число элементов будет одинаковым в каждой переменной
+
+get_negative_values <- function(test_data){
+  x1 <- apply(test_data, 2, function(x) x[!is.na(x) & x < 0])
+  result <- x1[sapply(x1,length)>0]
+  return(result)}
+  
+get_negative_values <- function(test_data){    
+negative_col <- apply(test_data, 2, function(x) any(x[!is.na(x)] < 0))    
+return(apply(test_data[negative_col], 2, function(x) x[!is.na(x) & x <0]))}
+
+2. Напишите функцию na_rm которая заменяет все пропущенные значения в столбцах dataframe на соответствующее среднее значение. То есть все NA в первом столбце заменяются на среднее значение первого столбца 
+(рассчитанного без учета NA). Все NA второго столбца заменяются на среднее значение второго столбца и т.д.  
+Функция na_rm на вход получает dataframe произвольной размерности, состоящий из количественных переменных. Функция должна возвращать  dataframe с замененными NA. 
+Ни порядок столбцов, ни порядок строк в dataframe изменять не нужно.
+
+na_rm  <- function(x){
+    as.data.frame (apply(x, 2, function(y) replace(y, is.na(y), mean(y, na.rm = TRUE))))
+}
+
+ na_rm  <- function(x){    
+	na_to_mean  <- function(v){    
+		v[is.na(v)]  <- mean(v , na.rm = T)    
+		return(v)}    
+	result  <- as.data.frame(apply(x, 2, na_to_mean))}
