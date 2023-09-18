@@ -16,3 +16,12 @@ return(apply(test_data[negative_col], 2, function(x) x[!is.na(x) & x <0]))}
 Функция na_rm на вход получает dataframe произвольной размерности, состоящий из количественных переменных. Функция должна возвращать  dataframe с замененными NA. 
 Ни порядок столбцов, ни порядок строк в dataframe изменять не нужно.
 
+na_rm  <- function(x){
+    as.data.frame (apply(x, 2, function(y) replace(y, is.na(y), mean(y, na.rm = TRUE))))
+}
+
+ na_rm  <- function(x){    
+	na_to_mean  <- function(v){    
+		v[is.na(v)]  <- mean(v , na.rm = T)    
+		return(v)}    
+	result  <- as.data.frame(apply(x, 2, na_to_mean))}
