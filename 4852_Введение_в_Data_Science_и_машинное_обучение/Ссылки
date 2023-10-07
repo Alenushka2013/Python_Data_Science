@@ -1,0 +1,30 @@
+О том как использовать Jupyter на все 100
+https://www.youtube.com/watch?v=GYiqqLMEzp8%EF%BB%BF
+
+Более продвинутый доклад о том, как писать хороший код ﻿
+https://www.youtube.com/watch?v=vZjm28HmqUY%EF%BB%BF
+
+
+https://matplotlib.org/
+
+встроенная в pandas визуализация
+https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.plot.html
+
+https://seaborn.pydata.org/
+
+https://plot.ly/ipython-notebooks/cufflinks/
+
+книга "Изучаем Pandas. Высокопроизводительная обработка и анализ в Python".
+https://www.rulit.me/books/izuchaem-pandas-vysokoproizvoditelnaya-obrabotka-i-analiz-v-python-get-649241.html
+
+https://seaborn.pydata.org/generated/seaborn.pairplot.html#seaborn.pairplot
+
+Работы с датой в Pandas 
+https://medium.com/datadriveninvestor/how-to-work-with-dates-in-pandas-like-a-pro-a84055a4819d
+https://www.geeksforgeeks.org/python-working-with-date-and-time-using-pandas/
+
+Работа с датой в Python при помощи модуля datetime
+https://python-scripts.com/datetime-time-python
+
+
+
