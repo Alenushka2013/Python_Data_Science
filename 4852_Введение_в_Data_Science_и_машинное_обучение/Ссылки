@@ -39,4 +39,22 @@ https://scikit-learn.org/stable/modules/cross_validation.html
 Конспект курса
 https://github.com/dgokondra/stepik_pandas_notebooks.github.io/blob/master/2.3-2.4.ipynb
 
+Основные понятия  по теме дерево решений
+Entropy and Information gain ﻿
+https://www.youtube.com/watch?v=IPkRVpXtbdY
+
+Train / test split ﻿
+https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html
+
+K-fold cross-validation ﻿
+http://scikit-learn.org/stable/modules/cross_validation.html
+
+Hyper parameters and Grid search ﻿
+http://scikit-learn.org/stable/modules/grid_search.html
+
+
+
+
+
+
 
