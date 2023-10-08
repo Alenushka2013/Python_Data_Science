@@ -26,5 +26,15 @@ https://www.geeksforgeeks.org/python-working-with-date-and-time-using-pandas/
 Работа с датой в Python при помощи модуля datetime
 https://python-scripts.com/datetime-time-python
 
+Материал для повторения алгоритма обучения дерева.
+https://towardsdatascience.com/entropy-how-decision-trees-make-decisions-2946b9c18c8
+Подробная лекция про решающие деревья, мне очень понравилось, как излагается материал, настоятельно рекомендую вместе/до/после/ нашего курса.
+https://www.youtube.com/watch?v=-dCtJjlEEgM
+Очень крутая визуализация принципа работы решающих деревьев!
+http://www.r2d3.us/visual-intro-to-machine-learning-part-1/
+
+как валидировать модель при помощи кросвалидации
+https://scikit-learn.org/stable/modules/cross_validation.html
+
 
 
