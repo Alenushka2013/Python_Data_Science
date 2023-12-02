@@ -56,4 +56,81 @@ for key, value in d.items():
   if value == k:
     print(key, end = ' ')
 
-3. 
+3. Сейчас вам нужно установить библиотеку BeautifulSoup. Чтобы проверить, что всё установилось хорошо, необходимо запусить код, представленный ниже и сдать в качестве ответа то, что он выводит.
+
+from urllib.request import urlopen, urlretrieve
+from bs4 import BeautifulSoup
+
+resp = urlopen('https://stepik.org/media/attachments/lesson/245130/6.html') # скачиваем файл
+html = resp.read().decode('utf8') # считываем содержимое
+soup = BeautifulSoup(html, 'html.parser') # делаем суп
+table = soup.find('table', attrs = {'class' : 'wikitable sortable'})
+cnt = 0
+for tr in soup.find_all('tr'):
+    cnt += 1
+    for td in tr.find_all(['td', 'th']):
+        cnt *= 2
+print(cnt)
+
+
+4. В файле https://stepik.org/media/attachments/lesson/209723/3.html находится одна таблица. 
+Просуммируйте все числа в ней и введите в качестве ответа одно число - эту сумму. Для доступа к ячейкам используйте возможности BeautifulSoup.
+
+import requests
+from bs4 import BeautifulSoup
+
+# Получаем содержимое файла по ссылке
+url = 'https://stepik.org/media/attachments/lesson/209723/3.html'
+response = requests.get(url)
+soup = BeautifulSoup(response.content, 'html.parser')
+
+# Находим таблицу в HTML
+table = soup.find('table')
+
+# Инициализируем сумму
+total_sum = 0
+
+# Итерируемся по строкам таблицы и суммируем числа
+for row in table.find_all('tr'):
+    cells = row.find_all('td')
+    for cell in cells:
+        # Получаем текст ячейки и добавляем числа к сумме
+        total_sum += int(cell.get_text())
+
+# Выводим результат
+print(total_sum)
+
+5. В файле https://stepik.org/media/attachments/lesson/209723/5.html находится одна таблица. Просуммируйте все числа в ней. 
+Теперь мы не только добавили разных тегов для изменения стиля отображения,
+но и сделали невалидный HTML-код (правда, браузеры его отображают, а вот с BeautifulSoup могут быть проблемы). 
+Невалидный HTML-код - не редкость в интернете, надо учиться работать и с этим.
+
+import requests
+from bs4 import BeautifulSoup
+from lxml import html
+
+# Получаем содержимое файла по ссылке
+url = 'https://stepik.org/media/attachments/lesson/209723/5.html'
+response = requests.get(url)
+
+# Парсим HTML с помощью lxml
+parsed_html = html.fromstring(response.content)
+
+# Находим таблицу в HTML
+table = parsed_html.find('.//table')
+
+# Инициализируем сумму
+total_sum = 0
+
+# Итерируемся по ячейкам таблицы и суммируем числа
+if table is not None:
+    for row in table.findall('.//tr'):
+        cells = row.findall('.//td')
+        for cell in cells:
+            # Получаем текст ячейки и добавляем числа к сумме
+            cell_text = cell.text_content().strip()
+            if cell_text.isdigit():
+                total_sum += int(cell_text)
+
+# Выводим результат
+print(total_sum)
