@@ -1,0 +1,59 @@
+1. Мы сохранили страницу с википедии про языки программирования и сохранили по адресу https://stepik.org/media/attachments/lesson/209717/1.html
+Скачайте её с помощью скрипта на Питоне и посчитайте, какой язык упоминается чаще Python или C++
+
+from urllib.request import urlopen
+html = urlopen("https://stepik.org/media/attachments/lesson/209717/1.html").read().decode('utf-8')
+text = str(html)
+py = int(html.count('Python'))
+c = int(html.count('C++'))
+if py > c:
+    print('Python')
+else:
+    print('C++')
+
+2. Файл https://stepik.org/media/attachments/lesson/209719/2.html содержит статью с Википедии про язык Python. В этой статье есть теги code, которыми выделяются конструкции на языке Python. 
+Вам нужно найти все строки, содержащиеся между тегами <code> и </code> и найти те строки, которые встречаются чаще всего и вывести их в алфавитном порядке, разделяя пробелами.
+
+from urllib.request import urlopen
+html = urlopen("https://stepik.org/media/attachments/lesson/209719/2.html ").read().decode('utf-8')
+text = str(html)
+import re
+regex = '<code>(.*?)</code>'
+l = sorted(re.findall(regex, text))
+
+d = {}
+for word in l:
+  if word not in d:
+    d[word] = l.count(word)
+
+k = max(d.values())
+for key, value in d.items():
+  if value == k:
+    print(key, end = ' ')
+
+
+
+from urllib.request import urlopen
+html = urlopen("https://stepik.org/media/attachments/lesson/209719/2.html ").read().decode('utf-8')
+text = str(html)
+
+res, a, b = [], '<code>' , '</code>'
+i1 = 0
+i2 = -1
+test = True
+while i1 != -1:
+  i1, i2 = text.find(a,i2 + 1), text.find(b,i2 + 1)
+  res.append(text[i1 + 6:i2])
+
+res.sort()
+d = {}
+for word in res:
+  if word not in d:
+    d[word] = res.count(word)
+
+k = max(d.values())
+for key, value in d.items():
+  if value == k:
+    print(key, end = ' ')
+
+3. 
