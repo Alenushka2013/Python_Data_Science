@@ -89,18 +89,30 @@ res = ans.astype(int)
 for i in range(len(res)):
   print(*res.iloc[i, 1:])
 
+4. Главный бухгалтер компании "Рога и копыта" случайно удалил ведомость с начисленной зарплатой. К счастью, у него сохранились расчётные листки всех сотрудников.
+Помогите по этим расчётным листкам восстановить зарплатную ведомость. Архив с расчётными листками доступен по ссылке 
+https://stepik.org/media/attachments/lesson/245299/rogaikopyta.zip (вы можете скачать и распаковать его вручную или самостоятельно научиться делать это с помощью скрипта на Питоне).
+Ведомость должна содержать 1000 строк, в каждой строке должно быть указано ФИО сотрудника и, через пробел, его зарплата. Сотрудники должны быть упорядочены по алфавиту.
 
+from zipfile import ZipFile
+import urllib.request
+from openpyxl import load_workbook
 
+url = 'https://stepik.org/media/attachments/lesson/245299/rogaikopyta.zip'
+urllib.request.urlretrieve(url, 'zip_file')
+res = {}
 
+with ZipFile('zip_file') as f:
+    file_names = f.namelist()
 
+    for name in file_names:
+        f.extract(name)
+        rd = load_workbook(filename=name)
+        sheet = rd.active
+        fio = sheet['B2'].value
+        salary = sheet['D2'].value
+        res[fio] = int(salary)
 
-
-
-
-
-
-
-
-
-
+for name, salary in sorted(res.items()):
+    print(name, salary)
 
