@@ -62,6 +62,32 @@ print(*total) # 4963 203 307 302
 Для каждого дня посчитайте 4 числа: суммарную калорийность и граммы белков, жиров и углеводов. Числа округлите до целых вниз и введите через пробел. 
 Информация о каждом дне должна выводиться в отдельной строке.
 
+from openpyxl import load_workbook
+workbook = load_workbook(filename="/content/trekking3.xlsx")
+workbook.sheetnames # ['Справочник', 'Раскладка']
+
+data = []
+for row in workbook['Справочник'].iter_rows(values_only=True):
+    data.append(row)
+data = pd.DataFrame(data[1:], columns = ['food', 'ккал', 'b', 'g', 'u'])
+
+menu = []
+for row in workbook['Раскладка'].iter_rows(values_only=True):
+    menu.append(row)
+menu = pd.DataFrame(menu[1:], columns = ['day', 'food',  'g'])
+
+selo3 = pd.DataFrame(menu.groupby(by = ['day', 'food'], as_index = False).sum())
+res = pd.merge(selo3, data, how = 'left', on = 'food')
+res['kkal'] = res['g_x'] * res['ккал'] / 100
+res['Bel'] = res['g_x'] * res['b'] / 100
+res['Fat'] = res['g_x'] * res['g_y'] / 100
+res['Ugl'] = res['g_x'] * res['u'] / 100
+res = res.drop(columns = ['food',	'g_x',	'ккал',	'b',	'g_y',	'u'])
+
+ans = res.groupby('day', as_index = False).sum()
+res = ans.astype(int)
+for i in range(len(res)):
+  print(*res.iloc[i, 1:])
 
 
 
