@@ -23,3 +23,22 @@ print(tag_count, not_tag)
 сколько на нём отмечено точечных объектов (node), являющихся заправкой. 
 В качестве ответа вам необходимо вывести одно число - количество АЗС.
 
+import xmltodict
+fin = open('/content/map2.osm', 'r', encoding='utf8')
+xml = fin.read()
+fin.close()
+
+parsedxml = xmltodict.parse(xml)
+
+res = 0
+for node in parsedxml['osm']['node']:
+  if 'tag' in node:
+    tags = node['tag']
+    if isinstance(tags, list):
+      for tag in tags:
+        if '@v' in tag and tag['@v']=='fuel':
+          res += 1
+    elif isinstance(tags,dict):
+      if (tags['@v'])=='fuel':
+        res += 1
+res # 15
