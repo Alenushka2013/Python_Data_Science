@@ -20,3 +20,6 @@ with open('multiplication_table.html', 'w') as file:
     file.write('</body>\n')
     file.write('</html>\n')
 
+2. Каждое число в таблице должно быть ссылкой на страницу http://<это число>.ru. 
+            file.write(f'<td><a href="http://{mult}.ru">{mult}</a></td>\n')
+
