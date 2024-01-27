@@ -1,0 +1,105 @@
+# 1. Есть API, которая выдает средний возраст людей по их имени. Вам нужно определить средний возраст для имени elena.
+host – https://agify.io/
+query param – name
+Пример запроса к API – https://api.agify.io?name=michael
+
+import requests
+host = "https://api.agify.io"
+try:
+    r = requests.get(host, params={"name": "elena"})
+    r.raise_for_status()
+except requests.HTTPError as e:
+    print("HTTPError:", e)
+except Exception as e:
+    print("Something went wrong with request:", e)
+else:
+    print(r.json()["age"])
+
+import requests
+url = "https://api.agify.io/"
+params = {
+    "name": "elena"
+}
+response = requests.get(url, params=params)
+print(response.json()["age"])
+
+# 2. В этот раз мы будем работать с хранилищем знаний о пиве – Punk API. Ваша задача – узнать какое пиво IPA впервые было сварено до января 2008 года.
+host – https://api.punkapi.com/v2/
+название пива – ipa
+впервые сварено до – 01-2008
+В качестве ответа укажите id пива.
+
+import requests
+
+# URL API Punk
+url = "https://api.punkapi.com/v2/beers"
+
+# Параметры запроса
+params = {
+    "beer_name": "ipa",
+    "brewed_before": "01-2008"
+}
+
+# Выполняем GET-запрос
+response = requests.get(url, params=params)
+
+# Проверяем успешность запроса
+if response.status_code == 200:
+    # Извлекаем данные в формате JSON
+    data = response.json()
+
+    # Проверяем, есть ли данные
+    if data:
+        # Выводим id первого пива в списке
+        print("ID первого IPA пива, сваренного до января 2008 года:", data[0]["id"])
+    else:
+        print("Нет данных о пиве с указанными параметрами.")
+else:
+    print("Ошибка при выполнении запроса:", response.status_code) # ID первого IPA пива, сваренного до января 2008 года: 192
+
+import requests
+
+url = "https://api.punkapi.com/v2/beers"
+params = {
+    "beer_name": "ipa",
+    "brewed_before": "01-2008"
+}
+
+response = requests.get(url, params=params).json()
+print(response[0]['id'])
+
+
+Не охото было запускать среду разработки, поэтому я сразу в браузере в адресной строке прописал все параметры запроса:
+api.punkapi.com/v2/beers?brewed_before=01-2008&beer_name=IPA  
+
+# 3. На этот раз будем работать с Dogs API. Ваша задача узнать что за порода скрывается под id = 258. Чтобы выполнить запросы к этому сервису вам предварительно нужно получить токен.
+host – https://api.thedogapi.com/v1/
+auth – api_key
+В качестве ответа укажите породу собаки, поле name.
+
+import requests
+
+# URL API Dogs
+url = "https://api.thedogapi.com/v1/breeds/258"
+
+# Замените 'YOUR_API_KEY' на ваш API-ключ
+headers = {
+    "x-api-key": "YOUR_API_KEY"
+}
+
+# Выполняем GET-запрос
+response = requests.get(url, headers=headers)
+
+# Проверяем успешность запроса
+if response.status_code == 200:
+    # Извлекаем данные в формате JSON
+    data = response.json()
+
+    # Проверяем, есть ли данные
+    if data:
+        # Выводим имя породы собаки
+        print("Порода собаки с id 258:", data["name"])
+    else:
+        print("Нет данных о породе с указанным id.")
+else:
+    print("Ошибка при выполнении запроса:", response.status_code)  # Порода собаки с id 258: White Shepherd
