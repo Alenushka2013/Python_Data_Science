@@ -66,3 +66,111 @@ normality.test  <- function(x){
 
 normality.test  <- function(x){    
 	return(sapply(x, FUN =  shapiro.test)['p.value',])}
+
+
+4. Функция gvlma() из библиотеки gvlma позволяет получить оценку выполнения основных допущений линейной регрессии. В качестве аргумента она принимает объект, в который сохранена модель. 
+Можно задать формулу модели прямо в функции gvlma. Чтобы увидеть основные статистики, нужно выполнить команду summary для объекта, созданного с помощью функции gvlma. 
+Загрузите себе прикреплённый к этому степу датасет и постройте регрессию, предсказывающую DV по IV. Установите библиотеку gvlma и проверьте, удовлетворяется ли в этой модели требование гомоскедастичности.
+Введите в поле ответа p-значение для теста гетероскедастичности. 
+
+# Загрузка необходимых библиотек
+library(gvlma)
+
+# Загрузка данных
+data <- read.csv("homosc.csv")  # Путь к файлу dataset.csv
+
+# Построение модели регрессии
+model <- lm(DV ~ IV, data = data)
+
+# Проверка гетероскедастичности с помощью gvlma
+gvlma_result <- gvlma(model)
+
+# Вывод результатов
+summary(gvlma_result)
+
+Call:
+lm(formula = DV ~ IV, data = data)
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-18.644  -5.476  -1.216   5.885  27.937 
+Coefficients:
+            Estimate Std. Error t value Pr(>|t|)   
+(Intercept)  3.78707    5.71128   0.663    0.510   
+IV           0.26617    0.08513   3.127    0.003 **
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+Residual standard error: 8.626 on 48 degrees of freedom
+Multiple R-squared:  0.1692,	Adjusted R-squared:  0.1519 
+F-statistic: 9.776 on 1 and 48 DF,  p-value: 0.003001
+ASSESSMENT OF THE LINEAR MODEL ASSUMPTIONS
+USING THE GLOBAL TEST ON 4 DEGREES-OF-FREEDOM:
+Level of Significance =  0.05 
+Call:
+ gvlma(x = model) 
+                    Value  p-value                   Decision
+Global Stat        13.4206 0.009393 Assumptions NOT satisfied!
+Skewness            5.3467 0.020762 Assumptions NOT satisfied!
+Kurtosis            3.8634 0.049351 Assumptions NOT satisfied!
+Link Function       0.1553 0.693511    Assumptions acceptable.
+Heteroscedasticity  4.0553 0.044034 Assumptions NOT satisfied!
+
+df = read.csv('https://stepik.org/media/attachments/lesson/12088/homosc.csv')
+summary(gvlma(DV ~ IV, df))
+
+homosc <- read.csv("homosc.csv")
+gvlma(DV ~ IV, data = homosc)$GlobalTest$DirectionalStat4$pvalue
+> gvlma(DV ~ IV, data = homosc)$GlobalTest$DirectionalStat4$pvalue
+[1] 0.04403357
+
+5. Напишите функцию resid.norm, которая тестирует распределение остатков от модели на нормальность при помощи функции shapiro.test 
+и создает гистограмму при помощи функции ggplot() с красной заливкой "red", если распределение остатков значимо отличается от нормального (p < 0.05),
+и с зелёной заливкой "green" - если распределение остатков значимо не отличается от нормального.
+На вход функция получает регрессионную модель. Функция возвращает переменную, в которой сохранен график ggplot.
+
+resid.norm <- function (fit) {
+res <- fit$resid    						#заносим в переменную значения остатков из модели fit
+s <- shapiro.test(res)$p 					# заносим в переменную s значение П уровня значимости полученное в регресионной модели fit
+color <- "" 							# объявляем переменную для цвета заливки графика
+ifelse(s>0.05, color <-  "green", color <- "red") 		# если П уровень больше 5% , то цвет зеленый, если наоборот , то красный
+plot <- ggplot(as.data.frame(fit$model), aes(x = res)) + 	# параметр as.data.frame(fit$model) делает из данных в нашей регресионной модели ДатаФрейм
+  geom_histogram(binwidth = 1, fill = color, col = 'black') 	# параметр fill = color закрашивает нашу гистрограмму в зависимости от П уровня , согласно условия выше
+return(plot)							# возвращаем наш график
+}
+
+Пример правильного решения:
+
+resid.norm <- function(fit) {    
+	resid.norm.pv <- shapiro.test(fitresiduals)residuals)p.value    
+	plt <- ggplot(data.frame(fitmodel),aes(x=fitmodel),aes(x=fitresiduals)) +    
+		geom_histogram(fill = ifelse(resid.norm.pv < 0.05, 'red', 'green'))    
+	return(plt)}
+
+
+6. Ещё одной проблемой регрессионных моделей может стать мультиколлинеарность - ситуация, когда предикторы очень сильно коррелируют между собой.
+Иногда корреляция между двумя предикторами может достигать 1, например, когда два предиктора - это одна и та же переменная, 
+измеренная в разных шкалах (x1 - рост в метрах, x2 - рост в сантиметрах)  
+Проверить данные на мультиколлинеарность можно по графику pairs() и посчитав корреляцию между всеми предикторами c помощью функции cor.
+Напишите функцию high.corr, которая принимает на вход датасет с произвольным числом количественных переменных и возвращает вектор с именами двух переменных 
+с максимальным абсолютным значением коэффициента корреляции.
+
+high.corr <- function(x){
+    l <- length(x)
+    res <- matrix(nrow = l, ncol = l)
+    for(i in 1:(l-1)){
+        for(j in (i+1):l){
+            k <- cor.test(x[[i]], x[[j]])$estimate
+            res[i, j] = k[["cor"]]
+                           }
+                    }
+    res[is.na(res)] <- 0
+    res <- abs(res)
+    res_row <- which.max(res) %% l
+    res_col <- which.max(res[res_row,])
+    return(c(names(x[res_row]), names(x[res_col])))
+}
+
+Пример правильного решения 
+high.corr <- function(x){    
+	cr <- cor(x)    
+	diag(cr) <- 0    
+	return(rownames(which(abs(cr)==max(abs(cr)),arr.ind=T)))}
