@@ -12,7 +12,7 @@ log_coef <- glm(am ~ disp + vs + mpg, mtcars, family = 'binomial')$coefficients
 Цвет ящиков с усами (boxplot) - переменная dose.
 
 library("ggplot2")
-obj <- ggplot(data = ToothGrowth, aes(supp, len, fill = dose)) +
+obj <- ggplot(data = ToothGrowth, aes(supp, len, fill = factor(dose))) +
   geom_boxplot()
 
 3. 
