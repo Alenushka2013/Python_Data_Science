@@ -1,0 +1,35 @@
+Задача "Колледжи" 
+
+Формат файла
+
+    School -  название школы
+    School_Type - тип школы (школа искусств  'LibArts', исследовательский университет 'Univ')
+    SAT - медиана объединенных значений Math и Verbal SAT  студентов
+    Acceptance: - % принятых абитуриентов
+    $/Student  -  Деньги, расходуемые на одного студента в среднем
+    Top 10% -  % студентов в топ 10% выпускных классов
+    %PhD -  %  факультетов, имеющих PhD
+    Grad%: % студентов, которые успешно завершили обучение
+
+    Найдите
+    выборочное среднее SAT школ искусств,
+    3й выборочный квартиль Acceptance университетов
+    название института(колледжа), в котором тратят денег в среднем на одного студента больше, чем в других институтах(колледжах)
+
+import pandas as pd
+df = pd.read_csv('colleges.txt', sep='\t')
+uni = df[df['School_Type']=='Univ']
+art = df[df['School_Type']=='Lib Arts']
+
+print(art['SAT'].mean())
+print(uni['Acceptance'].quantile(0.75))
+print(uni[uni['$/Student']==uni['$/Student'].max()]['School'])
+
+R:
+mean(colleges$SAT[colleges$School_Type=="Lib Arts"])
+CAU <- colleges$Acceptance[colleges$School_Type=="Univ"]
+summary(CAU)
+sort(CAU)[floor(length(CAU)*0.75)+1] # floor округляет вниз
+median(CAU[CAU>=median(CAU)])
+colleges$School[colleges$X..Student==max(colleges$X..Student)]
+
