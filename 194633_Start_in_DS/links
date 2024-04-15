@@ -2,3 +2,16 @@ streamlit
 https://docs.streamlit.io/
 https://github.com/evgpat/streamlit_demo/blob/main/model.py
 https://github.com/evgpat/streamlit_tutorial/blob/main/text.py
+
+## Streamlit
+шпаргалка
+https://docs.streamlit.io/library/cheatsheet
+
+туториал как создать свое первое приложение на Streamlit
+https://docs.streamlit.io/library/get-started/create-an-app
+
+основные функции фреймворка с примерами кода
+https://docs.streamlit.io/library/api-reference
+
+галерея приложений реализованных на Streamlit (со ссылками на репозитории проектов, очень полезно!)
+https://streamlit.io/gallery
